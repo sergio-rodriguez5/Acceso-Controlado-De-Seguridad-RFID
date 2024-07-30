@@ -1,0 +1,451 @@
+[
+    {
+        "id": "4f1314446377ae42",
+        "type": "tab",
+        "label": "AccesoRFIDTelegram",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0f5e4417034eec78",
+        "type": "ui_template",
+        "z": "4f1314446377ae42",
+        "group": "b9611026b92abe19",
+        "name": "ESP32/CAM",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<iframe id=\"video\" title=\"Video\" width=\"250\" height=\"190\" src = \"http://172.16.29.218:81/stream\">\n</iframe>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 130,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "73baebd6706d7f20",
+        "type": "exec",
+        "z": "4f1314446377ae42",
+        "command": "python3 /home/Sergio/Documents/iot_essentials/RFID/rfid.py",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 300,
+        "y": 180,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "8851648aa87a9d70",
+        "type": "debug",
+        "z": "4f1314446377ae42",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8110de082e6bd04c",
+        "type": "ui_button",
+        "z": "4f1314446377ae42",
+        "d": true,
+        "name": "",
+        "group": "b9611026b92abe19",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "activacion",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 80,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fdf45ca964ddd9ff",
+        "type": "file in",
+        "z": "4f1314446377ae42",
+        "name": "Lectura 1",
+        "filename": "/home/Sergio/Documents/iot_essentials/RFID/datos.txt",
+        "filenameType": "str",
+        "format": "lines",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": true,
+        "x": 680,
+        "y": 180,
+        "wires": [
+            [
+                "8851648aa87a9d70"
+            ]
+        ]
+    },
+    {
+        "id": "b330bb927cc87dbd",
+        "type": "inject",
+        "z": "4f1314446377ae42",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 90,
+        "y": 500,
+        "wires": [
+            [
+                "4a8bf7e643392e93"
+            ]
+        ]
+    },
+    {
+        "id": "bf7e5c097377b11b",
+        "type": "telegram receiver",
+        "z": "4f1314446377ae42",
+        "d": true,
+        "name": "Recepcion del mensaje",
+        "bot": "f803eb2bb031226a",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 100,
+        "y": 540,
+        "wires": [
+            [
+                "a21cd4486fffc922"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "a21cd4486fffc922",
+        "type": "debug",
+        "z": "4f1314446377ae42",
+        "d": true,
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 280,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "f1d5e4de3a8cee79",
+        "type": "telegram sender",
+        "z": "4f1314446377ae42",
+        "name": "",
+        "bot": "f803eb2bb031226a",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 670,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "172ea0314ffd29a3",
+        "type": "function",
+        "z": "4f1314446377ae42",
+        "name": "function 2",
+        "func": "\nmsg.payload = {\n    \"chatId\":6823841268,\n    \"type\":\"message\",\n    \"content\": \"Su estatus es: \" + msg.payload.Acceso + \", Con ID:\" + msg.payload.id_Registro + \", Con los datos: \" + msg.payload.datos +\", Accion: \"+ msg.payload.alerta \n\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 40,
+        "wires": [
+            [
+                "f1d5e4de3a8cee79",
+                "7919d433c581dd99"
+            ]
+        ]
+    },
+    {
+        "id": "bbc90b6b2856a9d8",
+        "type": "inject",
+        "z": "4f1314446377ae42",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 80,
+        "y": 460,
+        "wires": [
+            [
+                "172ea0314ffd29a3"
+            ]
+        ]
+    },
+    {
+        "id": "4a8bf7e643392e93",
+        "type": "file in",
+        "z": "4f1314446377ae42",
+        "d": true,
+        "name": "Lectura 0",
+        "filename": "/home/Sergio/Documents/iot_essentials/RFID/datos.txt",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 300,
+        "y": 480,
+        "wires": [
+            [
+                "668f1c42fd38148d"
+            ]
+        ]
+    },
+    {
+        "id": "668f1c42fd38148d",
+        "type": "function",
+        "z": "4f1314446377ae42",
+        "d": true,
+        "name": "function 4",
+        "func": "var cero\ncero = msg.payload \nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3a6a823d13d94479",
+        "type": "mqtt in",
+        "z": "4f1314446377ae42",
+        "name": "Mqtt",
+        "topic": "codigoIoT/ejemplo/ID",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "cb58ad93c4dbec1a",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 100,
+        "wires": [
+            [
+                "e7d04a14825379f3",
+                "172ea0314ffd29a3"
+            ]
+        ]
+    },
+    {
+        "id": "7919d433c581dd99",
+        "type": "debug",
+        "z": "4f1314446377ae42",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "f7bb5bb23ad3d410",
+        "type": "inject",
+        "z": "4f1314446377ae42",
+        "d": true,
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 330,
+        "y": 400,
+        "wires": [
+            [
+                "73baebd6706d7f20"
+            ]
+        ]
+    },
+    {
+        "id": "e7d04a14825379f3",
+        "type": "function",
+        "z": "4f1314446377ae42",
+        "d": true,
+        "name": "function 5",
+        "func": "msg.payload = msg.payload.id_Registro;\nmsg.topic = \"ID\"\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 400,
+        "wires": [
+            [
+                "172ea0314ffd29a3"
+            ]
+        ]
+    },
+    {
+        "id": "b9611026b92abe19",
+        "type": "ui_group",
+        "name": "Fecha y Hora",
+        "tab": "e1181577b0cf525c",
+        "order": 1,
+        "disp": true,
+        "width": "11",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f803eb2bb031226a",
+        "type": "telegram bot",
+        "botname": "Base_De_Acceso_bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "cb58ad93c4dbec1a",
+        "type": "mqtt-broker",
+        "name": "Mosquitto RaspBerryPi",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e1181577b0cf525c",
+        "type": "ui_tab",
+        "name": "Fecha",
+        "icon": "fa-clock-o",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
