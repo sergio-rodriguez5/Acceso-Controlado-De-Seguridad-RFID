@@ -49,3 +49,5 @@ La ubicación del código python para utilisar el sensor RFID y los servomotores
 La ubicación del dump para la base de datos en MariaDB la puedes encontar en la carpeta AutoIOTBaseDeDatos/
 
 El json del flujo de Node-Red se encuentra en la carpeta RFIDTelegramJSON/
+
+Este proyecto fue realizado en el marco del curso IoT Essentials Developer impartido por [Codigo IoT ](https://www.codigoiot.com/) y organizado por la [Asociación Mexicana del Internet de las Cosas](https://www.asociacioniot.org/).
